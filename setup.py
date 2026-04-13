@@ -106,20 +106,19 @@ class PyrobufDistribution(Distribution):
         # Even if PYROBUF_LIST_PYX and PYROBUF_LIST_PXD already exist they should be re-built because
         # we don't know whether they were built using *this* version of Python.
         path = os.path.join(HERE, 'pyrobuf', 'src', PYROBUF_LIST_PYX)
-        if not self.dry_run:
-            with open(path, 'w') as fp:
-                fp.write(templ_pyx.render(
-                    {'def': listdict, 'version_major': sys.version_info.major, 'format_map': format_map}
-                ))
+        with open(path, 'w') as fp:
+            fp.write(templ_pyx.render(
+                {'def': listdict, 'version_major': sys.version_info.major, 'format_map': format_map}
+            ))
         if self.verbose >= 1:
             log.info("rendering '%s' from '%s'" % (PYROBUF_LIST_PYX, templ_pyx.filename))
 
         path = os.path.join(HERE, 'pyrobuf', 'src', PYROBUF_LIST_PXD)
-        if not self.dry_run:
-            with open(path, 'w') as fp:
-                fp.write(templ_pxd.render(
-                    {'def': listdict, 'version_major': sys.version_info.major, 'format_map': format_map}
-                ))
+
+        with open(path, 'w') as fp:
+            fp.write(templ_pxd.render(
+                {'def': listdict, 'version_major': sys.version_info.major, 'format_map': format_map}
+            ))
         if self.verbose >= 1:
             log.info("rendering '%s' from '%s'" % (PYROBUF_LIST_PXD, templ_pxd.filename))
 
