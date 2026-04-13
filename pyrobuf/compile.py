@@ -176,23 +176,23 @@ class Compiler(object):
         write_pyx = True
 
         if not self.clean and os.path.exists(os.path.join(self.out, name_pxd)):
-            with open(os.path.join(self.out, name_pxd), 'r') as fp:
+            with open(os.path.join(self.out, name_pxd), 'r', encoding='utf-8') as fp:
                 if fp.read().strip() == generated_pxd.strip():
                     write_pxd = False
                     print('{} has not changed'.format(name_pxd))
 
         if not self.clean and os.path.exists(os.path.join(self.out, name_pyx)):
-            with open(os.path.join(self.out, name_pyx), 'r') as fp:
+            with open(os.path.join(self.out, name_pyx), 'r', encoding='utf-8') as fp:
                 if fp.read().strip() == generated_pyx.strip():
                     write_pyx = False
                     print('{} has not changed'.format(name_pyx))
 
         if write_pxd:
-            with open(os.path.join(self.out, name_pxd), 'w') as fp:
+            with open(os.path.join(self.out, name_pxd), 'w', encoding='utf-8') as fp:
                 fp.write(generated_pxd)
 
         if write_pyx:
-            with open(os.path.join(self.out, name_pyx), 'w') as fp:
+            with open(os.path.join(self.out, name_pyx), 'w', encoding='utf-8') as fp:
                 fp.write(generated_pyx)
 
     def _package(self):
@@ -206,8 +206,8 @@ class Compiler(object):
         name_pyx = "{}.pyx".format(self.package)
         self._pyx_files.append(os.path.join(self.out, name_pyx))
 
-        with open(os.path.join(self.out, name_pxd), 'w') as fp:
+        with open(os.path.join(self.out, name_pxd, encoding='utf-8'), 'w') as fp:
             fp.write(self.t_pxd.render(meta, version_major=_VM))
 
-        with open(os.path.join(self.out, name_pyx), 'w') as fp:
+        with open(os.path.join(self.out, name_pyx, encoding='utf-8'), 'w') as fp:
             fp.write(self.t_pyx.render(meta, version_major=_VM))
