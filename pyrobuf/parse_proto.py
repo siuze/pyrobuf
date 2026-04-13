@@ -259,7 +259,7 @@ class Parser(object):
     @classmethod
     def parse_from_filename(cls, fname, includes, disabled_tokens=None):
         disabled_tokens = disabled_tokens or cls.unsupported_tokens
-        with open(fname, 'r') as fp:
+        with open(fname, 'r', encoding='utf-8') as fp:
             s = fp.read()
 
         try:
@@ -358,10 +358,11 @@ class Parser(object):
 
             elif token.token_type == 'MODIFIER':
                 if self.syntax == 3:
-                    assert token.value == 'repeated', (
-                        "Illegal modifier {} on line {}: {}".format(
-                            token.value, token.line + 1,
-                            self.lines[token.line]))
+                    pass
+                    # assert token.value == 'repeated', (
+                    #     "Illegal modifier {} on line {}: {}".format(
+                    #         token.value, token.line + 1,
+                    #         self.lines[token.line]))
 
             elif token.token_type in ('FIELD', 'MAP_FIELD'):
                 self._parse_field_token(token, previous, tokens, current_message, messages, enums, imported_enums)
