@@ -5,17 +5,12 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-  workflow_dispatch: # 允许手动触发
+  workflow_dispatch:
 
 jobs:
   build_wheels:
-    name: Build wheels on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        # 仅针对 Windows 构建
-        os: [windows-latest]
-
+    name: Build wheels on Windows
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -25,13 +20,14 @@ jobs:
           python-version: '3.13'
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.16.5
-        # 可以在这里通过环境变量配置，例如限制构建特定的 Python 版本
+        uses: pypa/cibuildwheel@v2.21.3  # 请确保版本 >= 2.21.0 以完美支持 Python 3.13
         env:
-          CIBW_BUILD: "cp313-*"
+          # 仅构建 Python 3.13 (cp313)
+          # 对于 Windows，指定 cp313-win_amd64
+          CIBW_BUILD: "cp313-win_amd64"
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: wheels-${{ matrix.os }}
+          name: wheels-windows-py313
           path: ./wheelhouse/*.whl
